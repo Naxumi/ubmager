@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -75,65 +77,65 @@ class _LoginPageState extends State<LoginPage> {
                   thickness: 2,
                   endIndent: 355,
                 ),
-                SizedBox(height: 8),
-                Text("Masukkan Nama Panjang"),
-                SizedBox(height: 8),
-                TextField(
+                const SizedBox(height: 8),
+                const Text("Masukkan Nama Panjang"),
+                const SizedBox(height: 8),
+                const TextField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 16),
-                Text("Masukkan Alamat Email"),
-                SizedBox(height: 8),
-                TextField(
+                const SizedBox(height: 16),
+                const Text("Masukkan Alamat Email"),
+                const SizedBox(height: 8),
+                const TextField(
                   decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 16),
-                Text("Masukkan NIM"),
-                SizedBox(height: 8),
-                TextField(
+                const SizedBox(height: 16),
+                const Text("Masukkan NIM"),
+                const SizedBox(height: 8),
+                const TextField(
                   decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 16),
-                Text("Masukkan password"),
-                SizedBox(height: 8),
-                TextField(
+                const SizedBox(height: 16),
+                const Text("Masukkan password"),
+                const SizedBox(height: 8),
+                const TextField(
                   obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 16),
-                Text("Konfirmasi Password"),
-                SizedBox(height: 8),
-                TextField(
+                const SizedBox(height: 16),
+                const Text("Konfirmasi Password"),
+                const SizedBox(height: 8),
+                const TextField(
                   obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: _login,
-                  child: const Text('Login',
-                      style: TextStyle(color: Colors.white)),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 0, 56, 93),
-                    minimumSize: Size(double.infinity, 48),
+                    backgroundColor: const Color.fromARGB(255, 0, 56, 93),
+                    minimumSize: const Size(double.infinity, 48),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           6), // Changed border radius value
                     ),
                   ),
+                  child: const Text('Login',
+                      style: TextStyle(color: Colors.white)),
                 ),
                 const SizedBox(height: 24),
-                Center(
-                  child: const Text('Sudah punya akun? Login',
+                const Center(
+                  child: Text('Sudah punya akun? Login',
                       style: TextStyle(fontSize: 18)),
                 ),
               ],
@@ -150,6 +152,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -168,6 +172,8 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,6 +184,8 @@ class HomePage extends StatelessWidget {
 }
 
 class ForgotPasswordPage extends StatelessWidget {
+  const ForgotPasswordPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -188,6 +196,8 @@ class ForgotPasswordPage extends StatelessWidget {
 }
 
 class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

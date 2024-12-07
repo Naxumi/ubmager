@@ -5,14 +5,14 @@ class ReusableNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
 
-  ReusableNavigationBar({required this.selectedIndex, required this.onItemTapped});
+  const ReusableNavigationBar({super.key, required this.selectedIndex, required this.onItemTapped});
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: selectedIndex,
       onTap: onItemTapped,
-      backgroundColor: Color.fromARGB(255, 0, 56, 93), // Update background color
+      backgroundColor: const Color.fromARGB(255, 0, 56, 93), // Update background color
       selectedItemColor: Colors.white, // Color when selected
       unselectedItemColor: Colors.grey[400], // Color when unselected
       items: const [
