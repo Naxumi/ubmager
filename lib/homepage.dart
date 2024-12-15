@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'navigationbar.dart';
 import 'profil.dart';
+import 'notif.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,7 +35,7 @@ class _HomepageState extends State<Homepage> {
   // Daftar halaman yang akan ditampilkan berdasarkan menu
   final List<Widget> _pages = [
     HomePageContent(),
-    Profil(),
+    Notif(),
     Profil(),
   ];
 

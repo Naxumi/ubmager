@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'rating.dart';
 
 class Profil extends StatelessWidget {
   const Profil({super.key});
@@ -6,9 +7,6 @@ class Profil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profil'),
-      ),
       body: Column(
         children: [
           // Bagian atas dengan gradient
@@ -20,7 +18,7 @@ class Profil extends StatelessWidget {
                 end: Alignment.bottomCenter,
               ),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 150),
+            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 150),
             child: Column(
               children: [
                 Stack(
@@ -94,7 +92,13 @@ class Profil extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.star),
                   title: const Text('Rating dan Ulasan Pengguna'),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RatingUlasan()),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.attach_money),

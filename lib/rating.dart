@@ -1,5 +1,90 @@
 import 'package:flutter/material.dart';
 
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const Profil(),
+    );
+  }
+}
+
+class Profil extends StatelessWidget {
+  const Profil({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profil'),
+      ),
+      body: Column(
+        children: [
+          Container(
+            color: Colors.blue,
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              children: [
+                const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage('images/food2.jpg'),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Animex',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  'animex@student.ub.id',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(10),
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.star),
+                  title: const Text('Rating dan Ulasan Pengguna'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RatingUlasan()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.security),
+                  title: const Text('Pengaturan Akun'),
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class RatingUlasan extends StatelessWidget {
   const RatingUlasan({super.key});
 
@@ -9,191 +94,56 @@ class RatingUlasan extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Rating dan Ulasan Pengguna'),
       ),
-      body: Column(
+      body: ListView(
+        padding: const EdgeInsets.all(10),
         children: [
-          // Tab Penilaian
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            decoration: const BoxDecoration(
-              color: Color(0xFFB0D0E6), // Warna latar atas
+          // Contoh Rating Ulasan
+          ListTile(
+            leading: const CircleAvatar(
+              backgroundImage: AssetImage('images/food2.jpg'),
             ),
-            child: Row(
+            title: const Text('animex'),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Penilaian Saya',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
+                Row(
+                  children: List.generate(
+                    5,
+                    (index) => const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                      size: 16,
                     ),
                   ),
                 ),
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Belum Dinilai',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
+                const Text('17 - 08 - 1945 10.00 | Varian: Pedas Pro Max'),
+                const SizedBox(height: 5),
+                const Text('Wenak pol gesss............'),
               ],
             ),
           ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: ListView(
+          const Divider(),
+          ListTile(
+            leading: const CircleAvatar(
+              backgroundImage: AssetImage('images/food3.jpg'),
+            ),
+            title: const Text('Driver'),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Ulasan Makanan 1
-                buildReviewTile(
-                  username: 'Ripqi Nopal',
-                  dateTime: '17 - 08 - 1945 10.00',
-                  variant: 'Pedas Pro Max',
-                  review: 'Wenak pol gesss............',
-                  imagePath: 'assets/food1.png',
-                  buttonLabel: 'Beli Lagi',
-                  restaurantName: 'Ayam Geprek Mas Faiz | Pedas Pol En...',
-                ),
-                const Divider(),
-                // Ulasan Driver
-                ListTile(
-                  leading: const CircleAvatar(
-                    backgroundImage: AssetImage('assets/driver.png'),
-                  ),
-                  title: const Text(
-                    'Driver',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: List.generate(
-                          5,
-                          (index) => const Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                            size: 16,
-                          ),
-                        ),
-                      ),
-                      const Text('Driver cepat...'),
-                    ],
+                Row(
+                  children: List.generate(
+                    5,
+                    (index) => const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                      size: 16,
+                    ),
                   ),
                 ),
-                const Divider(),
-                // Ulasan Makanan 2
-                buildReviewTile(
-                  username: 'Ripqi Nopal',
-                  dateTime: '30 - 09 - 1965 10.00',
-                  variant: 'Full Cream',
-                  review: 'Segar seperti menjadi ironman',
-                  imagePath: 'assets/food2.png',
-                  buttonLabel: 'Beli Lagi',
-                  restaurantName: 'Ayam Geprek Mas Faiz | Pedas Pol En...',
-                ),
+                const Text('Driver cepat...'),
               ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildReviewTile({
-    required String username,
-    required String dateTime,
-    required String variant,
-    required String review,
-    required String imagePath,
-    required String buttonLabel,
-    required String restaurantName,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header Ulasan
-          Row(
-            children: [
-              const CircleAvatar(
-                backgroundImage: AssetImage('assets/profile_picture.png'),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    username,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Row(
-                    children: List.generate(
-                      5,
-                      (index) => const Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                        size: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 5),
-          // Detail Ulasan
-          Text(
-            '$dateTime | Varian : $variant',
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.grey,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Row(
-            children: [
-              // Gambar Makanan
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  imagePath,
-                  width: 80,
-                  height: 80,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(width: 10),
-              // Review dan Tombol
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      review,
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                    const SizedBox(height: 5),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                      ),
-                      child: Text(
-                        buttonLabel,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
           ),
         ],
       ),
