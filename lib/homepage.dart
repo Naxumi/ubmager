@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'navigationbar.dart';
 import 'profil.dart';
 
@@ -17,40 +16,32 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: const Homepage(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class Homepage extends StatefulWidget {
+  const Homepage({Key? key}) : super(key: key);
 
   @override
-  HomePageState createState() => HomePageState();
+  _HomepageState createState() => _HomepageState();
 }
 
-class HomePageState extends State<HomePage> {
+class _HomepageState extends State<Homepage> {
   int _selectedIndex = 0;
-  final PageController _pageController = PageController();
 
+  // Daftar halaman yang akan ditampilkan berdasarkan menu
   final List<Widget> _pages = [
-    const HomePageContent(),
-    const Profil(),
+    HomePageContent(),
+    Profil(),
+    Profil(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  Timer? _timer;
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    _timer?.cancel();
-    super.dispose();
   }
 
   @override
@@ -63,41 +54,10 @@ class HomePageState extends State<HomePage> {
       ),
     );
   }
-
 }
 
-class HomePageContent extends StatefulWidget {
+class HomePageContent extends StatelessWidget {
   const HomePageContent({super.key});
-
-  @override
-  _HomePageContentState createState() => _HomePageContentState();
-}
-
-class _HomePageContentState extends State<HomePageContent> {
-  int _currentPage = 0;
-  final PageController _pageController = PageController();
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
-      setState(() {
-        _currentPage = (_currentPage + 1) % 3;  // Ensure looping between 0, 1, 2
-      });
-      _pageController.animateToPage(
-        _currentPage,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,61 +111,11 @@ class _HomePageContentState extends State<HomePageContent> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: PageView(
-                          controller: _pageController,
-                          onPageChanged: (index) {
-                            setState(() {
-                              _currentPage = index;
-                            });
-                          },
                           children: <Widget>[
                             Image.asset('images/banner1.png', fit: BoxFit.cover),
                             Image.asset('images/banner2.png', fit: BoxFit.cover),
                             Image.asset('images/banner3.png', fit: BoxFit.cover),
                           ],
-                        ),
-                      ),
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        bottom: 0,
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_left, size: 32, color: Colors.white),
-                          onPressed: () {
-                            if (_currentPage > 0) {
-                              _pageController.previousPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            } else {
-                              _pageController.animateToPage(
-                                2,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_right, size: 32, color: Colors.white),
-                          onPressed: () {
-                            if (_currentPage < 2) {
-                              _pageController.nextPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            } else {
-                              _pageController.animateToPage(
-                                0,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            }
-                          },
                         ),
                       ),
                     ],
@@ -225,9 +135,11 @@ class _HomePageContentState extends State<HomePageContent> {
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(130, 40),
                             backgroundColor: const Color(0xFF00385D),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
                           ),
-                          child: const Text('Titip Makan', style: TextStyle(color: Colors.white)),
+                          child: const Text('Titip Makan',
+                              style: TextStyle(color: Colors.white)),
                         ),
                       ),
                       const SizedBox(width: 50),
@@ -237,9 +149,11 @@ class _HomePageContentState extends State<HomePageContent> {
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(130, 40),
                             backgroundColor: const Color(0xFF006F8E),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
                           ),
-                          child: const Text('Antar Jemput', style: TextStyle(color: Colors.white)),
+                          child: const Text('Antar Jemput',
+                              style: TextStyle(color: Colors.white)),
                         ),
                       ),
                     ],
@@ -287,7 +201,9 @@ class _HomePageContentState extends State<HomePageContent> {
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.left,
-                                    style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14),
                                   ),
                                 ),
                               ],
