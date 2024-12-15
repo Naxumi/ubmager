@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'bantuan.dart';
+import 'pendapatan.dart';
+import 'pengaturanumum.dart';
+import 'pengaturanakun.dart';
 import 'rating.dart';
 import 'history.dart';
 
@@ -88,7 +92,12 @@ class Profil extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.security),
                   title: const Text('Pengaturan Akun'),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PengaturanAkun()),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.star),
@@ -104,7 +113,12 @@ class Profil extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.attach_money),
                   title: const Text('Pendapatan'),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PendapatanPage()),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.history),
@@ -120,12 +134,22 @@ class Profil extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.settings),
                   title: const Text('Pengaturan Umum'),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PengaturanUmum()),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.help),
                   title: const Text('Bantuan'),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BantuanPage()),
+                    );
+                  },
                 ),
               ],
             ),
