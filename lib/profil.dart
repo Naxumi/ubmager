@@ -11,27 +11,127 @@ class Profil extends StatelessWidget {
       ),
       body: Column(
         children: [
-          ListTile(
-            leading: const Icon(Icons.account_circle_outlined),
-            title: const Text('Pengaturan Akun'),
-            onTap: () {
-              // Navigate to Profile settings or any other page if needed
-            },
+          // Bagian atas dengan gradient
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF0072FF), Color(0xFF00C6FF)], // Gradasi biru
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 150),
+            child: Column(
+              children: [
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // Foto Profil
+                    const CircleAvatar(
+                      radius: 50,
+                      backgroundImage: AssetImage(
+                          'images/food1.jpg'), // Ganti dengan gambar Anda
+                    ),
+                    // Icon Edit di kanan atas
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            // Tambahkan aksi edit di sini
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.blue,
+                          ),
+                          iconSize: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Ehek Ehek',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  'Cihuy@student.ub.id',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.notifications),
-            title: const Text('Notifikasi'),
-            onTap: () {
-              // Navigate to Notification settings page
-            },
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(10),
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.security),
+                  title: const Text('Pengaturan Akun'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: const Icon(Icons.star),
+                  title: const Text('Rating dan Ulasan Pengguna'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: const Icon(Icons.attach_money),
+                  title: const Text('Pendapatan'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: const Icon(Icons.history),
+                  title: const Text('Riwayat Order'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: const Icon(Icons.settings),
+                  title: const Text('Pengaturan Umum'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: const Icon(Icons.help),
+                  title: const Text('Bantuan'),
+                  onTap: () {},
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.help),
-            title: const Text('Bantuan'),
-            onTap: () {
-              // Navigate to Help page
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: ElevatedButton.icon(
+              onPressed: () {},
+              icon: const Icon(Icons.logout),
+              label: const Text('Keluar'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+              ),
+            ),
           ),
+          const SizedBox(height: 10),
         ],
       ),
     );
