@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'rating.dart';
+import 'history.dart';
 
 class Profil extends StatelessWidget {
   const Profil({super.key});
@@ -108,7 +109,13 @@ class Profil extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.history),
                   title: const Text('Riwayat Order'),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HistoryPage()),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.settings),
