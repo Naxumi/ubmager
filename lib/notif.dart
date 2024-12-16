@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 import 'package:flutter/material.dart';
 
 class Notif extends StatelessWidget {
@@ -101,4 +98,3 @@ class Notif extends StatelessWidget {
     );
   }
 }
->>>>>>> 9a3d9103f6d9e2041108b4fabe54a2e09a60a9e5

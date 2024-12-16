@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
 import 'bantuan.dart';
 import 'pendapatan.dart';
 import 'pengaturanumum.dart';
 import 'pengaturanakun.dart';
 import 'rating.dart';
 import 'history.dart';
->>>>>>> 9a3d9103f6d9e2041108b4fabe54a2e09a60a9e5
 
 class Profil extends StatelessWidget {
   const Profil({super.key});
@@ -17,29 +14,6 @@ class Profil extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-<<<<<<< HEAD
-          ListTile(
-            leading: const Icon(Icons.account_circle_outlined),
-            title: const Text('Pengaturan Akun'),
-            onTap: () {
-              // Navigate to Profile settings or any other page if needed
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.notifications),
-            title: const Text('Notifikasi'),
-            onTap: () {
-              // Navigate to Notification settings page
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.help),
-            title: const Text('Bantuan'),
-            onTap: () {
-              // Navigate to Help page
-            },
-          ),
-=======
           // Bagian atas dengan gradient
           Container(
             decoration: const BoxDecoration(
@@ -193,7 +167,6 @@ class Profil extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
->>>>>>> 9a3d9103f6d9e2041108b4fabe54a2e09a60a9e5
         ],
       ),
     );
