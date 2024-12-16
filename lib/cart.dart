@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'payment.dart';
 
 class CartPage extends StatelessWidget {
   final Map<String, int> cart;
@@ -47,16 +48,27 @@ class CartPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Total', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Text('Rp $totalPrice', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const Text('Total',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text('Rp $totalPrice',
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle order now action
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        PaymentPage(cart: cart, totalPrice: totalPrice),
+                  ),
+                );
               },
-              child: const Text('Pesan Sekarang', style: TextStyle(color: Colors.white)),
+              child: const Text('Pesan Sekarang',
+                  style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF00385D),
                 minimumSize: const Size(double.infinity, 50),
