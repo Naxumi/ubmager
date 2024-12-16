@@ -55,9 +55,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: const Color(0xFFF4F8FA),
-        height: double.infinity,
-        width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: SafeArea(
@@ -148,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -161,11 +158,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: const LoginPage(),
       routes: {
-        '/home': (context) => HomePage(),
-        '/forgot-password': (context) => ForgotPasswordPage(),
-        '/register': (context) => RegisterPage(),
+        '/home': (context) => const HomePage(),
+        '/forgot-password': (context) => const ForgotPasswordPage(),
+        '/register': (context) => const RegisterPage(),
       },
     );
   }

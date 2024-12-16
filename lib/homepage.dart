@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'navigationbar.dart';
 import 'profil.dart';
+import 'tokodetail.dart';
 
 void main() {
   runApp(const MyApp());
@@ -178,35 +179,45 @@ class HomePageContent extends StatelessWidget {
                             return Column(
                               children: <Widget>[
                                 Flexible(
+                                  child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => TokoDetail(),
+                                    ),
+                                    );
+                                  },
                                   child: Card(
                                     elevation: 4,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: Image.asset(
-                                        'images/food${index + 1}.jpg',
-                                        height: 150,
-                                        width: 100,
-                                        fit: BoxFit.cover,
-                                      ),
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.asset(
+                                      'images/food${index + 1}.jpg',
+                                      height: 150,
+                                      width: 100,
+                                      fit: BoxFit.cover,
                                     ),
+                                    ),
+                                  ),
                                   ),
                                 ),
                                 const SizedBox(height: 4),
                                 Flexible(
                                   child: Text(
-                                    'Mie Gacoan ${index + 1}',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14),
+                                  'Mie Gacoan ${index + 1}',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14),
                                   ),
                                 ),
-                              ],
+                                ],
                             );
                           }),
                         );
