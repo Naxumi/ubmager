@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'navigationbar.dart';
 import 'profil.dart';
+<<<<<<< HEAD
 import 'tokodetail.dart';
+=======
+import 'notif.dart';
+>>>>>>> 9a3d9103f6d9e2041108b4fabe54a2e09a60a9e5
 
 void main() {
   runApp(const MyApp());
@@ -35,7 +39,11 @@ class _HomepageState extends State<Homepage> {
   // Daftar halaman yang akan ditampilkan berdasarkan menu
   final List<Widget> _pages = [
     HomePageContent(),
+<<<<<<< HEAD
     Profil(),
+=======
+    Notif(),
+>>>>>>> 9a3d9103f6d9e2041108b4fabe54a2e09a60a9e5
     Profil(),
   ];
 
@@ -113,9 +121,18 @@ class HomePageContent extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         child: PageView(
                           children: <Widget>[
+<<<<<<< HEAD
                             Image.asset('images/banner1.png', fit: BoxFit.cover),
                             Image.asset('images/banner2.png', fit: BoxFit.cover),
                             Image.asset('images/banner3.png', fit: BoxFit.cover),
+=======
+                            Image.asset('images/banner1.png',
+                                fit: BoxFit.cover),
+                            Image.asset('images/banner2.png',
+                                fit: BoxFit.cover),
+                            Image.asset('images/banner3.png',
+                                fit: BoxFit.cover),
+>>>>>>> 9a3d9103f6d9e2041108b4fabe54a2e09a60a9e5
                           ],
                         ),
                       ),
@@ -179,6 +196,7 @@ class HomePageContent extends StatelessWidget {
                             return Column(
                               children: <Widget>[
                                 Flexible(
+<<<<<<< HEAD
                                   child: GestureDetector(
                                   onTap: () {
                                     Navigator.push(
@@ -203,11 +221,28 @@ class HomePageContent extends StatelessWidget {
                                     ),
                                     ),
                                   ),
+=======
+                                  child: Card(
+                                    elevation: 4,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Image.asset(
+                                        'images/food${index + 1}.jpg',
+                                        height: 150,
+                                        width: 100,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+>>>>>>> 9a3d9103f6d9e2041108b4fabe54a2e09a60a9e5
                                   ),
                                 ),
                                 const SizedBox(height: 4),
                                 Flexible(
                                   child: Text(
+<<<<<<< HEAD
                                   'Mie Gacoan ${index + 1}',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -218,6 +253,18 @@ class HomePageContent extends StatelessWidget {
                                   ),
                                 ),
                                 ],
+=======
+                                    'Mie Gacoan ${index + 1}',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ],
+>>>>>>> 9a3d9103f6d9e2041108b4fabe54a2e09a60a9e5
                             );
                           }),
                         );

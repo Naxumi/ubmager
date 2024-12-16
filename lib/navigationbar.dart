@@ -16,9 +16,15 @@ class _ReusableNavigationBarState extends State<ReusableNavigationBar> {
   Container buildMyNavBar(BuildContext context) {
     return Container(
       height: 60,
+<<<<<<< HEAD
       decoration: const BoxDecoration(
         color: Color(0xFF00385D),
         borderRadius: BorderRadius.only(
+=======
+      decoration: BoxDecoration(
+        color: const Color(0xFF00385D),
+        borderRadius: const BorderRadius.only(
+>>>>>>> 9a3d9103f6d9e2041108b4fabe54a2e09a60a9e5
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
