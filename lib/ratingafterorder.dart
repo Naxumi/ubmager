@@ -1,26 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RatingPage extends StatefulWidget {
   final Map<String, int> cart;
+  final List<Map<String, dynamic>> menuPrices;
 
-  const RatingPage({super.key, required this.cart});
+  const RatingPage({super.key, required this.cart, required this.menuPrices});
 
   @override
   State<RatingPage> createState() => _RatingPageState();
 }
 
 class _RatingPageState extends State<RatingPage> {
-  // Simpan rating per produk
   Map<String, double> ratings = {};
   TextEditingController reviewController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    // Inisialisasi rating produk ke 0
     for (var key in widget.cart.keys) {
       ratings[key] = 0.0;
     }
+  }
+
+  Future<void> _submitRatings() async {
+    for (var entry in ratings.entries) {
+      final menuTitle = entry.key;
+      final rating = entry.value;
+      final amountBought = widget.cart[menuTitle] ?? 0;
+
+      // Fetch menu ID based on the title
+      final menuId = _getMenuIdByTitle(menuTitle);
+      if (menuId != null) {
+        final response = await http.post(
+          Uri.parse('http://10.0.2.2:8000/menus/$menuId/ulasan'),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            'ulasan_bintang': rating,
+            'ulasan_total': amountBought,
+          }),
+        );
+
+        // Debug prints to show response details
+        print('Menu ID: $menuId');
+        print('Rating: $rating');
+        print('Amount Bought: $amountBought');
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
+
+        if (response.statusCode != 200) {
+          print('Failed to submit rating for menu ID: $menuId');
+        }
+      } else {
+        print('Menu ID not found for title: $menuTitle');
+      }
+    }
+  }
+
+  int? _getMenuIdByTitle(String title) {
+    final menu = widget.menuPrices.firstWhere((menu) => menu['title'] == title, orElse: () => {'menu_id': 0});
+    return menu['menu_id'] ?? 0;
   }
 
   @override
@@ -49,28 +89,10 @@ class _RatingPageState extends State<RatingPage> {
               ),
             ),
             const SizedBox(height: 10),
-
-            // Kolom Ulasan
-            const Text(
-              'Tulis Ulasan Anda',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: reviewController,
-              maxLines: 4,
-              decoration: InputDecoration(
-                hintText: 'Tulis ulasan mengenai produk...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
             const SizedBox(height: 20),
-
-            // Tombol Kirim Penilaian
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await _submitRatings();
                 _showThankYouDialog();
               },
               style: ElevatedButton.styleFrom(
@@ -88,7 +110,6 @@ class _RatingPageState extends State<RatingPage> {
     );
   }
 
-  // Widget untuk bagian rating produk
   Widget _buildRatingSection(String productTitle) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,7 +141,6 @@ class _RatingPageState extends State<RatingPage> {
     );
   }
 
-  // Dialog Ucapan Terima Kasih
   void _showThankYouDialog() {
     showDialog(
       context: context,
@@ -130,9 +150,8 @@ class _RatingPageState extends State<RatingPage> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context); // Tutup dialog
-              Navigator.popUntil(context,
-                  (route) => route.isFirst); // Kembali ke halaman utama
+              Navigator.pop(context);
+              Navigator.popUntil(context, (route) => route.isFirst);
             },
             child: const Text('OK'),
           ),

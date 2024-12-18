@@ -4,14 +4,22 @@ import 'payment.dart';
 class CartPage extends StatelessWidget {
   final Map<String, int> cart;
   final int totalPrice;
+  final List<Map<String, dynamic>> menuPrices;
+  final String namaToko; // Add namaToko
 
-  const CartPage({super.key, required this.cart, required this.totalPrice});
+  const CartPage({
+    super.key,
+    required this.cart,
+    required this.totalPrice,
+    required this.menuPrices,
+    required this.namaToko, // Add namaToko
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ayam Geprek Sumber Sari'), // Change to store name
+        title: Text(namaToko), // Use namaToko for the app bar title
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -33,6 +41,7 @@ class CartPage extends StatelessWidget {
                       ),
                     ),
                     title: Text(title),
+                    subtitle: Text('Total: Rp $itemTotalPrice'),
                     trailing: Text(
                       'Rp $itemTotalPrice',
                       style: const TextStyle(fontSize: 14),
@@ -62,8 +71,12 @@ class CartPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        PaymentPage(cart: cart, totalPrice: totalPrice),
+                    builder: (context) => PaymentPage(
+                      cart: cart,
+                      totalPrice: totalPrice,
+                      menuPrices: menuPrices,
+                      menuId: _getMenuId().cast<int>(),
+                    ),
                   ),
                 );
               },
@@ -81,16 +94,14 @@ class CartPage extends StatelessWidget {
   }
 
   int _getItemPrice(String title) {
-    // Define the prices for each item
-    switch (title) {
-      case 'Nasi Goreng Spesial':
-        return 25000;
-      case 'Mie Ayam Bakso':
-        return 20000;
-      case 'Es Teh Manis':
-        return 5000;
-      default:
-        return 0;
-    }
+    final menu = menuPrices.firstWhere((menu) => menu['title'] == title, orElse: () => {'price': 0});
+    return menu['price'];
+  }
+
+  List _getMenuId() {
+    return cart.keys.map((title) {
+      final menu = menuPrices.firstWhere((menu) => menu['title'] == title, orElse: () => {'id': 0});
+      return menu['id'] ?? 0;
+    }).toList();
   }
 }

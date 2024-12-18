@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
-import 'dilevery.dart';
+import 'delivery.dart';
 
 class PaymentPage extends StatelessWidget {
   final Map<String, int> cart;
   final int totalPrice;
+  final List<Map<String, dynamic>> menuPrices;
+  final List<int> menuId;
 
-  const PaymentPage({super.key, required this.cart, required this.totalPrice});
+  const PaymentPage({
+    super.key,
+    required this.cart,
+    required this.totalPrice,
+    required this.menuPrices,
+    required this.menuId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +26,6 @@ class PaymentPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Ringkasan Pesanan
             const Text(
               'Ringkasan Pesanan',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -41,8 +48,6 @@ class PaymentPage extends StatelessWidget {
             ),
             const Divider(),
             const SizedBox(height: 10),
-
-            // Total Harga
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -58,8 +63,6 @@ class PaymentPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-
-            // Metode Pembayaran
             const Text(
               'Metode Pembayaran',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -68,16 +71,18 @@ class PaymentPage extends StatelessWidget {
             _buildPaymentOption('Transfer Bank', Icons.account_balance),
             _buildPaymentOption('E-Wallet', Icons.phone_android),
             _buildPaymentOption('COD (Bayar di Tempat)', Icons.money),
-
             const Spacer(),
-            // Tombol Konfirmasi Pembayaran
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        DeliveryPage(cart: cart, totalPrice: totalPrice),
+                    builder: (context) => DeliveryPage(
+                      cart: cart,
+                      totalPrice: totalPrice,
+                      menuPrices: menuPrices,
+                      menuId: menuId,
+                    ),
                   ),
                 );
               },
@@ -96,7 +101,6 @@ class PaymentPage extends StatelessWidget {
     );
   }
 
-  // Widget untuk Metode Pembayaran
   Widget _buildPaymentOption(String title, IconData icon) {
     return ListTile(
       leading: Icon(icon, color: const Color(0xFF00385D)),
@@ -108,17 +112,8 @@ class PaymentPage extends StatelessWidget {
     );
   }
 
-  // Fungsi harga produk
   int _getItemPrice(String title) {
-    switch (title) {
-      case 'Nasi Goreng Spesial':
-        return 25000;
-      case 'Mie Ayam Bakso':
-        return 20000;
-      case 'Es Teh Manis':
-        return 5000;
-      default:
-        return 0;
-    }
+    final menu = menuPrices.firstWhere((menu) => menu['title'] == title, orElse: () => {'price': 0});
+    return menu['price'];
   }
 }

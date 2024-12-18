@@ -1,11 +1,71 @@
 import 'package:flutter/material.dart';
-import 'ratingafterpayment.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'ratingafterorder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DeliveryPage extends StatelessWidget {
   final Map<String, int> cart;
   final int totalPrice;
+  final List<Map<String, dynamic>> menuPrices;
 
-  const DeliveryPage({super.key, required this.cart, required this.totalPrice});
+  const DeliveryPage({
+    super.key,
+    required this.cart,
+    required this.totalPrice,
+    required this.menuPrices, required List<int> menuId,
+  });
+
+  Future<void> _createTransaction(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final sessionData = json.decode(prefs.getString('session_data')!);
+    final userId = sessionData['user_data']['id'];
+
+    final transactionDetails = cart.entries.map((entry) {
+      final menuId = _getMenuIdByTitle(entry.key);
+      if (menuId == 0) {
+        throw Exception('Invalid menu ID for ${entry.key}');
+      }
+      return {
+        'menu_id': menuId,
+        'jumlah': entry.value,
+        'harga_per_item': _getItemPrice(entry.key),
+      };
+    }).toList();
+
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:8000/transactions/'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'user_id': userId,
+        'total_harga': totalPrice,
+        'status': 'completed',
+        'details': transactionDetails,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => RatingPage(cart: cart, menuPrices: menuPrices),
+        ),
+      );
+    } else {
+      print('Failed to create transaction. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
+  }
+
+  int _getMenuIdByTitle(String title) {
+    final menu = menuPrices.firstWhere((menu) => menu['title'] == title, orElse: () => {'menu_id': 0});
+    return menu['menu_id'] ?? 0;
+  }
+
+  int _getItemPrice(String title) {
+    final menu = menuPrices.firstWhere((menu) => menu['title'] == title, orElse: () => {'price': 0});
+    return menu['price'] ?? 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,14 +155,7 @@ class DeliveryPage extends StatelessWidget {
 
             // Tombol Selesai
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RatingPage(cart: cart),
-                  ),
-                );
-              },
+              onPressed: () => _createTransaction(context),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF00385D),
                 minimumSize: const Size(double.infinity, 50),
@@ -130,19 +183,5 @@ class DeliveryPage extends StatelessWidget {
       ),
       title: Text(title),
     );
-  }
-
-  // Fungsi harga produk
-  int _getItemPrice(String title) {
-    switch (title) {
-      case 'Nasi Goreng Spesial':
-        return 25000;
-      case 'Mie Ayam Bakso':
-        return 20000;
-      case 'Es Teh Manis':
-        return 5000;
-      default:
-        return 0;
-    }
   }
 }

@@ -7,6 +7,7 @@ class Notif extends StatelessWidget {
       appBar: AppBar(
         title: Text('Notifikasi'),
         centerTitle: true,
+        automaticallyImplyLeading: false, // Remove the back icon button
       ),
       body: ListView(
         padding: EdgeInsets.all(16.0),

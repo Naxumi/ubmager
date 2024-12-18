@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'cart.dart';
 
 class TokoDetail extends StatefulWidget {
-  const TokoDetail({super.key});
+  final int tokoId;
+  final String namaToko;
+  final String deskripsi;
+  final String estimasiWaktu;
+
+  const TokoDetail({
+    super.key,
+    required this.tokoId,
+    required this.namaToko,
+    required this.deskripsi,
+    required this.estimasiWaktu,
+  });
 
   @override
   _TokoDetailState createState() => _TokoDetailState();
@@ -12,6 +25,40 @@ class _TokoDetailState extends State<TokoDetail> {
   final Map<String, int> _cart = {};
   int _totalItems = 0;
   int _totalPrice = 0;
+  List<dynamic> _menus = [];
+  String? _gambarUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMenuData();
+    _loadTokoData();
+  }
+
+  Future<void> _loadMenuData() async {
+    final response = await http.get(
+      Uri.parse('http://10.0.2.2:8000/tokos/${widget.tokoId}/menus/'),
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        _menus = json.decode(response.body);
+      });
+    }
+  }
+
+  Future<void> _loadTokoData() async {
+    final response = await http.get(
+      Uri.parse('http://10.0.2.2:8000/tokos/${widget.tokoId}'),
+    );
+
+    if (response.statusCode == 200) {
+      final tokoData = json.decode(response.body);
+      setState(() {
+        _gambarUrl = tokoData['gambar'];
+      });
+    }
+  }
 
   void _addItem(String title, int price) {
     setState(() {
@@ -42,7 +89,7 @@ class _TokoDetailState extends State<TokoDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Toko Detail'),
+        title: Text(widget.namaToko),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -61,43 +108,14 @@ class _TokoDetailState extends State<TokoDetail> {
                 child: Text('Menu dan Varian',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ),
-              _buildMenuItem(
-                imagePath: 'images/food2.jpg',
-                title: 'Nasi Goreng Spesial',
-                price: 25000,
-              ),
-              const SizedBox(height: 10), // Add space between menu items
-              _buildMenuItem(
-                imagePath: 'images/food3.jpg',
-                title: 'Mie Ayam Bakso',
-                price: 20000,
-              ),
-              const SizedBox(height: 10), // Add space between menu items
-              _buildMenuItem(
-                imagePath: 'images/food4.jpg',
-                title: 'Es Teh Manis',
-                price: 5000,
-              ),
-              _buildMenuItem(
-                imagePath: 'images/food4.jpg',
-                title: 'Es Teh Manis',
-                price: 5000,
-              ),
-              _buildMenuItem(
-                imagePath: 'images/food4.jpg',
-                title: 'Es Teh Manis',
-                price: 5000,
-              ),
-              _buildMenuItem(
-                imagePath: 'images/food4.jpg',
-                title: 'Es Teh Manis',
-                price: 5000,
-              ),
-              _buildMenuItem(
-                imagePath: 'images/food4.jpg',
-                title: 'Es Teh Manis',
-                price: 5000,
-              ),
+              ..._menus.map((menu) => _buildMenuItem(
+                imagePath: 'http://10.0.2.2:8000${menu['gambar']}',
+                title: menu['nama_menu'],
+                price: menu['harga'],
+                menuId: menu['id'],
+                ulasanTotal: menu['ulasan_total'],
+                ulasanBintang: menu['ulasan_bintang'],
+              )).toList(),
               const SizedBox(height: 80), // Add space below the list
             ],
           ),
@@ -109,24 +127,35 @@ class _TokoDetailState extends State<TokoDetail> {
           margin: const EdgeInsets.symmetric(horizontal: 10),
           child: FloatingActionButton.extended(
           onPressed: () {
-        Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => CartPage(cart: _cart, totalPrice: _totalPrice)),
-        );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CartPage(
+                  cart: _cart,
+                  totalPrice: _totalPrice,
+                  menuPrices: _menus.map((menu) => {
+                    'title': menu['nama_menu'],
+                    'price': menu['harga'],
+                    'menu_id': menu['id'],
+                  }).toList(),
+                  namaToko: widget.namaToko, // Pass the namaToko
+                ),
+              ),
+            );
           },
           shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8),
           ),
           backgroundColor: const Color(0xFF00385D),
           label: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-        const Text('Keranjang', style: TextStyle(color: Colors.white)),
-        const SizedBox(width: 10),
-        Text('$_totalItems item', style: const TextStyle(color: Colors.white)),
-        const SizedBox(width: 10),
-        Text('Rp $_totalPrice', style: const TextStyle(color: Colors.white)),
-        ],
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Keranjang', style: TextStyle(color: Colors.white)),
+              const SizedBox(width: 10),
+              Text('$_totalItems item', style: const TextStyle(color: Colors.white)),
+              const SizedBox(width: 10),
+              Text('Rp $_totalPrice', style: const TextStyle(color: Colors.white)),
+            ],
           ),
           ),
         )
@@ -140,12 +169,14 @@ class _TokoDetailState extends State<TokoDetail> {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(15),
-          child: Image.asset(
-            'images/food1.jpg', // Ganti dengan URL gambar Anda
-            width: double.infinity,
-            height: 200,
-            fit: BoxFit.cover,
-          ),
+          child: _gambarUrl != null
+              ? Image.network(
+                  'http://10.0.2.2:8000$_gambarUrl',
+                  width: double.infinity,
+                  height: 200,
+                  fit: BoxFit.cover,
+                )
+              : const Placeholder(fallbackHeight: 200, fallbackWidth: double.infinity),
         ),
         Positioned(
           bottom: 10,
@@ -166,24 +197,24 @@ class _TokoDetailState extends State<TokoDetail> {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text('Ayam Geprek SumberSari',
-                    style: TextStyle(
+              children: [
+                Text(widget.namaToko,
+                    style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold)),
-                SizedBox(height: 5),
-                Text('Cepat Saji, Aneka Minuman',
-                    style: TextStyle(fontSize: 14, color: Colors.grey)),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
+                Text(widget.deskripsi,
+                    style: const TextStyle(fontSize: 14, color: Colors.grey)),
+                const SizedBox(height: 5),
                 Row(
-                  children: [
+                  children: const [
                     Icon(Icons.star, color: Colors.yellow, size: 16),
                     SizedBox(width: 5),
                     Text('4.7'),
                   ],
                 ),
-                SizedBox(height: 5),
-                Text('Delivery: Tiba dalam 15-20 Menit (1.5 Km)',
-                    style: TextStyle(fontSize: 14, color: Colors.grey)),
+                const SizedBox(height: 5),
+                Text('Estimasi Waktu: ${widget.estimasiWaktu}',
+                    style: const TextStyle(fontSize: 14, color: Colors.grey)),
               ],
             ),
           ),
@@ -192,14 +223,21 @@ class _TokoDetailState extends State<TokoDetail> {
     );
   }
 
-  Widget _buildMenuItem({required String imagePath, required String title, required int price}) {
+  Widget _buildMenuItem({
+    required String imagePath,
+    required String title,
+    required int price,
+    required int menuId,
+    required int ulasanTotal,
+    required double ulasanBintang,
+  }) {
     return Row(
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(15),
           child: Container(
             decoration: BoxDecoration(
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.black87,
                   blurRadius: 50,
@@ -207,7 +245,7 @@ class _TokoDetailState extends State<TokoDetail> {
                 ),
               ],
             ),
-            child: Image.asset(
+            child: Image.network(
               imagePath, // Ganti URL gambar
               width: 100,
               height: 100,
@@ -223,10 +261,10 @@ class _TokoDetailState extends State<TokoDetail> {
               children: [
                 Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 Row(
-                  children: const [
+                  children: [
                     Icon(Icons.star, color: Colors.yellow, size: 16),
                     SizedBox(width: 5),
-                    Text('4.7 (142 Ulasan)'),
+                    Text('${ulasanBintang.toStringAsFixed(1)} ($ulasanTotal Ulasan)'),
                   ],
                 ),
                 Text('Rp $price', style: const TextStyle(fontSize: 16)),
