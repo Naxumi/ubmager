@@ -1,67 +1,69 @@
 import 'package:flutter/material.dart';
 
 class PengaturanAkun extends StatelessWidget {
+  const PengaturanAkun({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pengaturan Akun'),
+        title: const Text('Pengaturan Akun'),
         centerTitle: true,
       ),
       body: ListView(
         children: [
           // Bagian Profil
           ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Ubah Profil'),
-            subtitle: Text('Nama, foto, dan informasi lainnya'),
-            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+            leading: const Icon(Icons.person),
+            title: const Text('Ubah Profil'),
+            subtitle: const Text('Nama, foto, dan informasi lainnya'),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () {
               // Navigasi ke halaman Ubah Profil
             },
           ),
-          Divider(),
+          const Divider(),
 
           // Bagian Keamanan
           ListTile(
-            leading: Icon(Icons.lock),
-            title: Text('Keamanan'),
-            subtitle: Text('Ganti kata sandi atau atur keamanan'),
-            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+            leading: const Icon(Icons.lock),
+            title: const Text('Keamanan'),
+            subtitle: const Text('Ganti kata sandi atau atur keamanan'),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () {
               // Navigasi ke halaman Keamanan
             },
           ),
-          Divider(),
+          const Divider(),
 
           // Bagian Notifikasi
           ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text('Notifikasi'),
-            subtitle: Text('Atur preferensi notifikasi'),
-            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+            leading: const Icon(Icons.notifications),
+            title: const Text('Notifikasi'),
+            subtitle: const Text('Atur preferensi notifikasi'),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () {
               // Navigasi ke halaman Notifikasi
             },
           ),
-          Divider(),
+          const Divider(),
 
           // Bagian Bahasa
           ListTile(
-            leading: Icon(Icons.language),
-            title: Text('Bahasa'),
-            subtitle: Text('Pilih bahasa aplikasi'),
-            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+            leading: const Icon(Icons.language),
+            title: const Text('Bahasa'),
+            subtitle: const Text('Pilih bahasa aplikasi'),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () {
               // Navigasi ke halaman pengaturan bahasa
             },
           ),
-          Divider(),
+          const Divider(),
 
           // Tombol Keluar
           ListTile(
-            leading: Icon(Icons.exit_to_app, color: Colors.red),
-            title: Text('Keluar', style: TextStyle(color: Colors.red)),
+            leading: const Icon(Icons.exit_to_app, color: Colors.red),
+            title: const Text('Keluar', style: TextStyle(color: Colors.red)),
             onTap: () {
               // Logika untuk keluar dari akun
             },
@@ -73,7 +75,7 @@ class PengaturanAkun extends StatelessWidget {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: PengaturanAkun(),
   ));
 }

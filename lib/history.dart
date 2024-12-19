@@ -64,8 +64,6 @@ class _HistoryPageState extends State<HistoryPage> {
         _transactions = transactions..sort((a, b) => DateTime.parse(b['tanggal_transaksi']).compareTo(DateTime.parse(a['tanggal_transaksi'])));
       });
     } else {
-      print('Failed to load transaction history. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
     }
   }
 

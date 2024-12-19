@@ -75,8 +75,6 @@ class _ProfileEditState extends State<ProfileEdit> {
       );
       Navigator.pop(context, true); // Pass true to indicate data was updated
     } else {
-      print('Failed to update profile. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Gagal memperbarui profil. Status code: ${response.statusCode}\nResponse: ${response.body}')),
       );

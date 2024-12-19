@@ -80,12 +80,12 @@ class CartPage extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('Pesan Sekarang',
-                  style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF00385D),
                 minimumSize: const Size(double.infinity, 50),
               ),
+              child: const Text('Pesan Sekarang',
+                  style: TextStyle(color: Colors.white)),
             ),
           ],
         ),

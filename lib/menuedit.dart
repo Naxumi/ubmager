@@ -67,11 +67,6 @@ class _MenuEditState extends State<MenuEdit> {
     }
 
     // Debug prints to show request details
-    print('Request URL: $url');
-    print('Request Method: ${request.method}');
-    print('Request Headers: ${request.headers}');
-    print('Request Fields: ${request.fields}');
-    print('Request Files: ${request.files.map((file) => file.filename).toList()}');
 
     final response = await request.send();
 
@@ -88,8 +83,6 @@ class _MenuEditState extends State<MenuEdit> {
       }
     } else {
       final responseData = await response.stream.bytesToString();
-      print('Failed to update menu. Status code: ${response.statusCode}');
-      print('Response body: $responseData');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Gagal memperbarui menu. Status code: ${response.statusCode}\nResponse: $responseData')),
       );
@@ -165,7 +158,7 @@ class _MenuEditState extends State<MenuEdit> {
                 ),
                 const SizedBox(width: 10),
                 if (_gambarUrl != null)
-                  Text('Gambar diunggah', style: TextStyle(color: Colors.green)),
+                  const Text('Gambar diunggah', style: TextStyle(color: Colors.green)),
               ],
             ),
             const SizedBox(height: 10),

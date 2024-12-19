@@ -33,10 +33,8 @@ class _TokoMenuManageState extends State<TokoMenuManage> {
         Uri.parse('http://10.0.2.2:8000/tokos/?skip=0&limit=9999'),
       );
 
-      print(
-          'Load Toko Data Status Code: ${response.statusCode}'); // Print status code for debugging
-      print(
-          'Load Toko Data Body: ${response.body}'); // Print response body for debugging
+      // Print status code for debugging
+      // Print response body for debugging
 
       if (response.statusCode == 200) {
         final List<dynamic> tokoList = json.decode(response.body);
@@ -59,10 +57,8 @@ class _TokoMenuManageState extends State<TokoMenuManage> {
       Uri.parse('http://10.0.2.2:8000/tokos/$tokoId/menus/'),
     );
 
-    print(
-        'Load Menu Data Status Code: ${response.statusCode}'); // Print status code for debugging
-    print(
-        'Load Menu Data Body: ${response.body}'); // Print response body for debugging
+    // Print status code for debugging
+    // Print response body for debugging
 
     if (response.statusCode == 200) {
       setState(() {
@@ -76,10 +72,8 @@ class _TokoMenuManageState extends State<TokoMenuManage> {
       Uri.parse('http://10.0.2.2:8000/menus/$menuId'),
     );
 
-    print(
-        'Delete Menu Status Code: ${response.statusCode}'); // Print status code for debugging
-    print(
-        'Delete Menu Body: ${response.body}'); // Print response body for debugging
+    // Print status code for debugging
+    // Print response body for debugging
 
     if (response.statusCode == 200) {
       setState(() {
@@ -109,9 +103,9 @@ class _TokoMenuManageState extends State<TokoMenuManage> {
 
     final response = await request.send();
 
-    print('Add Menu Status Code: ${response.statusCode}'); // Print status code for debugging
+    // Print status code for debugging
     final responseData = await response.stream.bytesToString();
-    print('Add Menu Response Body: $responseData'); // Print response body for debugging
+    // Print response body for debugging
 
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -126,9 +120,9 @@ class _TokoMenuManageState extends State<TokoMenuManage> {
   }
 
   void _showAddMenuBottomSheet() {
-    final TextEditingController _namaMenuController = TextEditingController();
-    final TextEditingController _hargaController = TextEditingController();
-    XFile? _pickedFile;
+    final TextEditingController namaMenuController = TextEditingController();
+    final TextEditingController hargaController = TextEditingController();
+    XFile? pickedFile;
 
     showModalBottomSheet(
       context: context,
@@ -145,7 +139,7 @@ class _TokoMenuManageState extends State<TokoMenuManage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                controller: _namaMenuController,
+                controller: namaMenuController,
                 decoration: const InputDecoration(
                   labelText: 'Nama Menu',
                   border: OutlineInputBorder(),
@@ -153,7 +147,7 @@ class _TokoMenuManageState extends State<TokoMenuManage> {
               ),
               const SizedBox(height: 10),
               TextField(
-                controller: _hargaController,
+                controller: hargaController,
                 decoration: const InputDecoration(
                   labelText: 'Harga',
                   border: OutlineInputBorder(),
@@ -166,15 +160,15 @@ class _TokoMenuManageState extends State<TokoMenuManage> {
                   ElevatedButton(
                     onPressed: () async {
                       final picker = ImagePicker();
-                      _pickedFile =
+                      pickedFile =
                           await picker.pickImage(source: ImageSource.gallery);
                       setState(() {});
                     },
                     child: const Text('Unggah Gambar'),
                   ),
                   const SizedBox(width: 10),
-                  if (_pickedFile != null)
-                    Text('Gambar diunggah',
+                  if (pickedFile != null)
+                    const Text('Gambar diunggah',
                         style: TextStyle(color: Colors.green)),
                 ],
               ),
@@ -182,8 +176,8 @@ class _TokoMenuManageState extends State<TokoMenuManage> {
               ElevatedButton(
                 onPressed: () {
                   if (_tokoId != null) {
-                    _addMenu(_tokoId!, _namaMenuController.text,
-                        int.parse(_hargaController.text), _pickedFile);
+                    _addMenu(_tokoId!, namaMenuController.text,
+                        int.parse(hargaController.text), pickedFile);
                     Navigator.pop(context);
                   }
                 },

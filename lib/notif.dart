@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
 class Notif extends StatelessWidget {
+  const Notif({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifikasi'),
+        title: const Text('Notifikasi'),
         centerTitle: true,
         automaticallyImplyLeading: false, // Remove the back icon button
       ),
       body: ListView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         children: [
           // Pesanan Selesai
           Card(
@@ -19,10 +21,10 @@ class Notif extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: ListTile(
-              leading: Icon(Icons.check_circle, color: Colors.green),
-              title: Text('Pesanan Selesai'),
-              subtitle: Text('Pesanan Anda telah sampai. Selamat menikmati!'),
-              trailing: Text(
+              leading: const Icon(Icons.check_circle, color: Colors.green),
+              title: const Text('Pesanan Selesai'),
+              subtitle: const Text('Pesanan Anda telah sampai. Selamat menikmati!'),
+              trailing: const Text(
                 '10m lalu',
                 style: TextStyle(color: Colors.grey),
               ),
@@ -31,7 +33,7 @@ class Notif extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           // Promo Makanan
           Card(
@@ -40,10 +42,10 @@ class Notif extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: ListTile(
-              leading: Icon(Icons.local_offer, color: Colors.orange),
-              title: Text('Promo Spesial Makanan'),
-              subtitle: Text('Diskon 50% untuk pembelian hari ini!'),
-              trailing: Text(
+              leading: const Icon(Icons.local_offer, color: Colors.orange),
+              title: const Text('Promo Spesial Makanan'),
+              subtitle: const Text('Diskon 50% untuk pembelian hari ini!'),
+              trailing: const Text(
                 '1h lalu',
                 style: TextStyle(color: Colors.grey),
               ),
@@ -52,7 +54,7 @@ class Notif extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           // Pesanan Baru
           Card(
@@ -61,10 +63,10 @@ class Notif extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: ListTile(
-              leading: Icon(Icons.fastfood, color: Colors.blue),
-              title: Text('Pesanan Baru'),
-              subtitle: Text('Pesanan Anda sedang diproses.'),
-              trailing: Text(
+              leading: const Icon(Icons.fastfood, color: Colors.blue),
+              title: const Text('Pesanan Baru'),
+              subtitle: const Text('Pesanan Anda sedang diproses.'),
+              trailing: const Text(
                 '2h lalu',
                 style: TextStyle(color: Colors.grey),
               ),
@@ -73,7 +75,7 @@ class Notif extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           // Notifikasi Umum
           Card(
@@ -82,10 +84,10 @@ class Notif extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: ListTile(
-              leading: Icon(Icons.notifications, color: Colors.grey),
-              title: Text('Notifikasi Umum'),
-              subtitle: Text('Tetap ikuti informasi terbaru dari kami.'),
-              trailing: Text(
+              leading: const Icon(Icons.notifications, color: Colors.grey),
+              title: const Text('Notifikasi Umum'),
+              subtitle: const Text('Tetap ikuti informasi terbaru dari kami.'),
+              trailing: const Text(
                 '1d lalu',
                 style: TextStyle(color: Colors.grey),
               ),

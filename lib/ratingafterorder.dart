@@ -43,17 +43,10 @@ class _RatingPageState extends State<RatingPage> {
         );
 
         // Debug prints to show response details
-        print('Menu ID: $menuId');
-        print('Rating: $rating');
-        print('Amount Bought: $amountBought');
-        print('Response status: ${response.statusCode}');
-        print('Response body: ${response.body}');
 
         if (response.statusCode != 200) {
-          print('Failed to submit rating for menu ID: $menuId');
         }
       } else {
-        print('Menu ID not found for title: $menuTitle');
       }
     }
   }

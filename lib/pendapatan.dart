@@ -64,8 +64,6 @@ class _PendapatanPageState extends State<PendapatanPage> {
         _totalPendapatan = totalPendapatan;
       });
     } else {
-      print('Failed to load transaction history. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
     }
   }
 

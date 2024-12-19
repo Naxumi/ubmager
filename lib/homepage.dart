@@ -91,7 +91,7 @@ class _HomepageState extends State<Homepage> {
   // Daftar halaman yang akan ditampilkan berdasarkan menu
   final List<Widget> _pages = [
     const HomePageContent(),
-    Notif(),
+    const Notif(),
     const Profil(),
   ];
 
@@ -255,7 +255,7 @@ class HomePageContent extends StatelessWidget {
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return const Text('No tokos available');
                     } else {
-                      final _tokos = snapshot.data!;
+                      final tokos = snapshot.data!;
                       return Column(
                         children: <Widget>[
                           LayoutBuilder(
@@ -270,8 +270,8 @@ class HomePageContent extends StatelessWidget {
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 crossAxisCount: crossAxisCount,
-                                children: List.generate(_tokos.length, (index) {
-                                  final toko = _tokos[index];
+                                children: List.generate(tokos.length, (index) {
+                                  final toko = tokos[index];
                                   return Column(
                                     children: <Widget>[
                                       Flexible(

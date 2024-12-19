@@ -80,7 +80,7 @@ class _ProfilState extends State<Profil> {
                             top: 0,
                             right: 0,
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white,
                                 boxShadow: [
@@ -141,7 +141,7 @@ class _ProfilState extends State<Profil> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => PengaturanAkun()),
+                            MaterialPageRoute(builder: (context) => const PengaturanAkun()),
                           );
                         },
                       ),
@@ -173,7 +173,7 @@ class _ProfilState extends State<Profil> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => PengaturanUmum()),
+                            MaterialPageRoute(builder: (context) => const PengaturanUmum()),
                           );
                         },
                       ),
@@ -183,7 +183,7 @@ class _ProfilState extends State<Profil> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => BantuanPage()),
+                            MaterialPageRoute(builder: (context) => const BantuanPage()),
                           );
                         },
                       ),
@@ -194,7 +194,7 @@ class _ProfilState extends State<Profil> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => PendapatanPage()),
+                            MaterialPageRoute(builder: (context) => const PendapatanPage()),
                           );
                         },
                       ),

@@ -52,8 +52,6 @@ class DeliveryPage extends StatelessWidget {
         ),
       );
     } else {
-      print('Failed to create transaction. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
     }
   }
 

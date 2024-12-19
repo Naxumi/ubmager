@@ -99,8 +99,6 @@ class _RegisterPageState extends State<RegisterPage> {
         },
       );
     } else {
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
       showDialog(
         context: context,
         builder: (BuildContext context) {

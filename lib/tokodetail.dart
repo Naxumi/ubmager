@@ -115,7 +115,7 @@ class _TokoDetailState extends State<TokoDetail> {
                 menuId: menu['id'],
                 ulasanTotal: menu['ulasan_total'],
                 ulasanBintang: menu['ulasan_bintang'],
-              )).toList(),
+              )),
               const SizedBox(height: 80), // Add space below the list
             ],
           ),
@@ -205,8 +205,8 @@ class _TokoDetailState extends State<TokoDetail> {
                 Text(widget.deskripsi,
                     style: const TextStyle(fontSize: 14, color: Colors.grey)),
                 const SizedBox(height: 5),
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     Icon(Icons.star, color: Colors.yellow, size: 16),
                     SizedBox(width: 5),
                     Text('4.7'),
@@ -236,8 +236,8 @@ class _TokoDetailState extends State<TokoDetail> {
         ClipRRect(
           borderRadius: BorderRadius.circular(15),
           child: Container(
-            decoration: BoxDecoration(
-              boxShadow: const [
+            decoration: const BoxDecoration(
+              boxShadow: [
                 BoxShadow(
                   color: Colors.black87,
                   blurRadius: 50,
@@ -262,8 +262,8 @@ class _TokoDetailState extends State<TokoDetail> {
                 Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 Row(
                   children: [
-                    Icon(Icons.star, color: Colors.yellow, size: 16),
-                    SizedBox(width: 5),
+                    const Icon(Icons.star, color: Colors.yellow, size: 16),
+                    const SizedBox(width: 5),
                     Text('${ulasanBintang.toStringAsFixed(1)} ($ulasanTotal Ulasan)'),
                   ],
                 ),
@@ -284,11 +284,11 @@ class _TokoDetailState extends State<TokoDetail> {
                       )
                     : ElevatedButton(
                         onPressed: () => _addItem(title, price),
-                        child: const Text('Pesan', style: TextStyle(color: Colors.white)),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF00385D),
                           minimumSize: const Size(120, 30),
                         ),
+                        child: const Text('Pesan', style: TextStyle(color: Colors.white)),
                       ),
               ],
             ),
