@@ -13,59 +13,54 @@ class PendapatanPage extends StatefulWidget {
 
 class _PendapatanPageState extends State<PendapatanPage> {
   List<dynamic> _transactions = [];
-  int? _userId;
+  int? _tokoId;
   double _totalPendapatan = 0.0;
 
   @override
   void initState() {
     super.initState();
-    _loadUserData();
+    _loadTokoData();
   }
 
-  Future<void> _loadUserData() async {
+  Future<void> _loadTokoData() async {
     final prefs = await SharedPreferences.getInstance();
     final sessionData = prefs.getString('session_data');
     if (sessionData != null) {
       final userData = json.decode(sessionData)['user_data'];
-      setState(() {
-        _userId = userData['id'];
-      });
-      _loadTransactionHistory();
+      final userId = userData['id'];
+
+      final response = await http.get(
+        Uri.parse('http://10.0.2.2:8000/tokos/?skip=0&limit=9999'),
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> tokoList = json.decode(response.body);
+        final tokoData = tokoList.firstWhere((toko) => toko['user_id'] == userId, orElse: () => null);
+
+        if (tokoData != null) {
+          setState(() {
+            _tokoId = tokoData['id'];
+          });
+          _loadTransactionHistory(tokoData['id']);
+        }
+      }
     }
   }
 
-  Future<void> _loadTransactionHistory() async {
-    if (_userId == null) return;
-
+  Future<void> _loadTransactionHistory(int tokoId) async {
     final response = await http.get(
-      Uri.parse('http://10.0.2.2:8000/transactions/history/$_userId'),
+      Uri.parse('http://10.0.2.2:8000/tokos/$tokoId/transactions'),
     );
 
     if (response.statusCode == 200) {
-      final transactions = json.decode(response.body);
+      final data = json.decode(response.body);
+      final transactions = data['transaction_history'] ?? [];
       double totalPendapatan = 0.0;
       for (var transaction in transactions) {
-        for (var detail in transaction['details']) {
-          final menuResponse = await http.get(
-            Uri.parse('http://10.0.2.2:8000/menus/${detail['menu_id']}'),
-          );
-          if (menuResponse.statusCode == 200) {
-            final menuData = json.decode(menuResponse.body);
-            final tokoResponse = await http.get(
-              Uri.parse('http://10.0.2.2:8000/tokos/${menuData['toko_id']}'),
-            );
-            if (tokoResponse.statusCode == 200) {
-              final tokoData = json.decode(tokoResponse.body);
-              detail['nama_toko'] = tokoData['nama_toko'];
-              detail['gambar'] = tokoData['gambar'];
-              detail['user_id'] = transaction['user_id'];
-              totalPendapatan += ((detail['harga_per_item'] * detail['jumlah']) as num).toDouble();
-            }
-          }
-        }
+        totalPendapatan += transaction['total_purchasement'] ?? 0.0;
       }
       setState(() {
-        _transactions = transactions..sort((a, b) => DateTime.parse(b['tanggal_transaksi']).compareTo(DateTime.parse(a['tanggal_transaksi'])));
+        _transactions = transactions;
         _totalPendapatan = totalPendapatan;
       });
     } else {
@@ -133,50 +128,69 @@ class _PendapatanPageState extends State<PendapatanPage> {
               itemCount: _transactions.length,
               itemBuilder: (context, index) {
                 final transaction = _transactions[index];
-                final date = DateTime.parse(transaction['tanggal_transaksi']);
-                final formattedDate = '${date.day}-${date.month}-${date.year}';
-                final totalHarga = transaction['details']
-                    .fold(0.0, (sum, detail) => sum + ((detail['harga_per_item'] * detail['jumlah']) as num).toDouble());
-                final toko = transaction['details'].isNotEmpty ? transaction['details'][0] : null;
-                final showDate = index == 0 || formattedDate != DateTime.parse(_transactions[index - 1]['tanggal_transaksi']).toString().split(' ')[0];
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (showDate)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                        child: Text(
-                          formattedDate,
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
+                final userName = transaction['user_name'] ?? 'Unknown User';
+                final totalPurchasement = transaction['total_purchasement'] ?? 0.0;
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PendapatanDetailPage(transaction: transaction),
                       ),
-                    if (toko != null)
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PendapatanDetailPage(transaction: transaction),
-                            ),
-                          );
-                        },
-                        child: ListTile(
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              'http://10.0.2.2:8000${toko['gambar']}',
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          title: Text(toko['nama_toko']),
-                          trailing: Text('Rp$totalHarga'),
-                        ),
-                      ),
-                  ],
+                    );
+                  },
+                  child: _buildHistoryItem(
+                    userName,
+                    'http://10.0.2.2:8000/images/user.png', // Placeholder image
+                    'Rp.$totalPurchasement',
+                  ),
                 );
               },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget Helper untuk Item Riwayat
+  Widget _buildHistoryItem(String title, String imagePath, String price) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+      child: Row(
+        children: [
+          // Gambar
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.network(
+              imagePath,
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(Icons.account_circle, size: 50, color: Colors.grey);
+              },
+            ),
+          ),
+          const SizedBox(width: 10),
+          // Detail Text
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          // Harga
+          Text(
+            price,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],

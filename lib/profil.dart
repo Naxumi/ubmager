@@ -6,7 +6,6 @@ import 'bantuan.dart';
 import 'pendapatan.dart';
 import 'pengaturanumum.dart';
 import 'pengaturanakun.dart';
-import 'rating.dart';
 import 'history.dart';
 import 'profiledit.dart';
 import 'tokomanage.dart';
